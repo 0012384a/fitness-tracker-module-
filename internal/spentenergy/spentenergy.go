@@ -21,6 +21,12 @@ func WalkingSpentCalories(steps int, weight, height float64, duration time.Durat
 	if duration <= 0 {
 		return 0, errors.New("error in function RunningSpentCalories")
 	}
+	if weight <= 0 {
+		return 0, errors.New("error in function RunningSpentCalories")
+	}
+	if height <= 0 {
+		return 0, errors.New("error in function RunningSpentCalories")
+	}
 	result := (weight * MeanSpeed(steps, height, duration) * duration.Minutes() / minInH) * walkingCaloriesCoefficient
 	return result, nil
 }
@@ -30,6 +36,12 @@ func RunningSpentCalories(steps int, weight, height float64, duration time.Durat
 		return 0, errors.New("error in function RunningSpentCalories")
 	}
 	if duration <= 0 {
+		return 0, errors.New("error in function RunningSpentCalories")
+	}
+	if weight <= 0 {
+		return 0, errors.New("error in function RunningSpentCalories")
+	}
+	if height <= 0 {
 		return 0, errors.New("error in function RunningSpentCalories")
 	}
 	result := weight * MeanSpeed(steps, height, duration) * duration.Minutes() / minInH

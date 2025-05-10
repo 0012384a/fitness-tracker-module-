@@ -50,8 +50,8 @@ func (ds DaySteps) ActionInfo() (string, error) {
 	distance := spentenergy.Distance(ds.Steps, ds.Height)
 	spentCalories, err := spentenergy.WalkingSpentCalories(ds.Steps, ds.Weight, ds.Height, ds.Duration)
 	if err != nil {
-		return " ", err
+		return "", err
 	}
-	result := fmt.Sprintf("Количество шагов: %d \nДистанция составила %.2f км.\nВы сожгли %.2f \n", ds.Steps, distance, spentCalories)
+	result := fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n", ds.Steps, distance, spentCalories)
 	return result, nil
 }

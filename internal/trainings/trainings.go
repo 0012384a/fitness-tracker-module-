@@ -23,7 +23,7 @@ func (t *Training) Parse(datastring string) (err error) {
 	// TODO: реализовать функцию
 	s := strings.Split(datastring, ",")
 	if len(s) != 3 {
-		return errors.New("error in function Parse")
+		return errors.New("error in function training.Parse. len(s) != 3.")
 	}
 	steps, err := strconv.Atoi(s[0])
 	if err != nil {
@@ -60,18 +60,18 @@ func (t Training) ActionInfo() (string, error) {
 	case run:
 		spentCalories, err = spentenergy.RunningSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
 		if err != nil {
-			return " ", err
+			return "", err
 		}
 	case walk:
 		spentCalories, err = spentenergy.WalkingSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
 		if err != nil {
-			return " ", err
+			return "", err
 		}
 	}
-	if training != run || training != walk {
-		return " ", errors.New("error in function Parse")
+	if training != run && training != walk {
+		return "", errors.New("unknown training type")
 	}
-	result := fmt.Sprintf("Тип тренировки: %s \nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f \n", training, duration, distance, meanSpeed, spentCalories)
+	result := fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", training, duration, distance, meanSpeed, spentCalories)
 
 	return result, nil
 
