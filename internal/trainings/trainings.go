@@ -31,7 +31,7 @@ func (t *Training) Parse(datastring string) (err error) {
 	}
 	t.Steps = steps
 	if t.Steps <= 0 {
-		return err
+		return errors.New("error in function training.Parse. Steps <= 0")
 	}
 	t.TrainingType = s[1]
 
@@ -40,6 +40,9 @@ func (t *Training) Parse(datastring string) (err error) {
 		return err
 	}
 	t.Duration = duration
+	if t.Duration <= 0 {
+		return errors.New("error in function daysteps.Parse. Duration <= 0")
+	}
 	return nil
 }
 
@@ -47,21 +50,25 @@ func (t Training) ActionInfo() (string, error) {
 	// TODO: реализовать функцию
 	var spentCalories float64
 	var err error
+	run := "Бег"
+	walk := "Ходьба"
 	distance := spentenergy.Distance(t.Steps, t.Height)
 	meanSpeed := spentenergy.MeanSpeed(t.Steps, t.Height, t.Duration)
 	duration := t.Duration.Hours()
 	training := t.TrainingType
-	if training == "Бег" {
+	switch training {
+	case run:
 		spentCalories, err = spentenergy.RunningSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
 		if err != nil {
 			return " ", err
 		}
-	} else if training == "Ходьба" {
+	case walk:
 		spentCalories, err = spentenergy.WalkingSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
 		if err != nil {
 			return " ", err
 		}
-	} else {
+	}
+	if training != run || training != walk {
 		return " ", errors.New("error in function Parse")
 	}
 	result := fmt.Sprintf("Тип тренировки: %s \nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f \n", training, duration, distance, meanSpeed, spentCalories)

@@ -22,7 +22,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	// TODO: реализовать функцию
 	s := strings.Split(datastring, ",")
 	if len(s) != 2 {
-		return errors.New("error in function Parse")
+		return errors.New("error in function daysteps.Parse. len(s) != 2")
 	}
 	steps, err := strconv.Atoi(s[0])
 	if err != nil {
@@ -30,13 +30,17 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	}
 	ds.Steps = steps
 	if ds.Steps <= 0 {
-		return err
+		return errors.New("error in function daysteps.Parse. Steps <= 0")
 	}
 	duration, err := time.ParseDuration(s[1])
 	if err != nil {
 		return err
 	}
 	ds.Duration = duration
+	if ds.Duration <= 0 {
+		return errors.New("error in function daysteps.Parse. Duration <= 0")
+	}
+
 	return nil
 }
 
